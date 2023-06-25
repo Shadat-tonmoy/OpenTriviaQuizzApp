@@ -1,6 +1,7 @@
 package com.assesment.opentriviaquizapp.ui.quiz
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,11 +16,15 @@ class QuizListAdapter(private val context: Context) : RecyclerView.Adapter<QuizL
         fun onAnswerOptionSelected()
     }
 
+    companion object {
+        private const val TAG = "QuizListAdapter"
+    }
+
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val viewBinding = SingleQuestionLayoutBinding.inflate(LayoutInflater.from(context))
+        val viewBinding = SingleQuestionLayoutBinding.inflate(LayoutInflater.from(context),parent, false)
         return ViewHolder(viewBinding)
     }
 
@@ -40,6 +45,7 @@ class QuizListAdapter(private val context: Context) : RecyclerView.Adapter<QuizL
     inner class ViewHolder(private val viewBinding : SingleQuestionLayoutBinding) : RecyclerView.ViewHolder(viewBinding.root){
 
         fun bindQuestion(question: Question) {
+            Log.e(TAG, "bindQuestion: binding with : ${question.id}" )
             with(viewBinding){
                 questionText.text = question.question
                 option1.text = question.options[0]

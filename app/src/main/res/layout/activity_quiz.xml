@@ -42,18 +42,29 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/questionList"
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/questionListContainer"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"
         android:layout_marginTop="@dimen/dimen_16"
         app:layout_constraintBottom_toTopOf="@+id/submitButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeCountView"
-        tools:listitem="@layout/single_question_layout" />
+        app:layout_constraintTop_toBottomOf="@id/timeCountView">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/questionList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_16"
+            app:layout_constraintBottom_toTopOf="@+id/submitButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeCountView"
+            />
+
+    </androidx.core.widget.NestedScrollView>
+
 
     <Button
         android:id="@+id/submitButton"
