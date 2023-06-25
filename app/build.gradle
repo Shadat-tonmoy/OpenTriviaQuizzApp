@@ -1,16 +1,18 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
 }
 
 android {
     namespace 'com.assesment.opentriviaquizapp'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.assesment.opentriviaquizapp"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -30,6 +32,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -41,4 +47,36 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+
+    // dagger hilt for dependency injection
+
+    implementation 'com.google.dagger:hilt-android:2.46.1'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.46.1'
+    kapt 'com.google.dagger:hilt-compiler:2.46.1'
+
+    // For instrumentation tests
+    androidTestImplementation  'com.google.dagger:hilt-android-testing:2.46.1'
+    androidTestAnnotationProcessor 'com.google.dagger:hilt-compiler:2.46.1'
+
+    // For local unit tests
+    testImplementation 'com.google.dagger:hilt-android-testing:2.46.1'
+    testAnnotationProcessor 'com.google.dagger:hilt-compiler:2.46.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation 'com.mikhaellopez:circularprogressbar:3.1.0'
+
+}
+
+kapt {
+    correctErrorTypes true
 }
