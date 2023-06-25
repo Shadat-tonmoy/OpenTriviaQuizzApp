@@ -6,11 +6,12 @@ import com.assesment.opentriviaquizapp.common.Operation
 import com.assesment.opentriviaquizapp.common.base.BaseViewModel
 import com.assesment.opentriviaquizapp.localData.CacheHelper
 import com.assesment.opentriviaquizapp.model.QuizHistory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
-
+@HiltViewModel
 class EndViewModel @Inject constructor() : BaseViewModel() {
 
     companion object {

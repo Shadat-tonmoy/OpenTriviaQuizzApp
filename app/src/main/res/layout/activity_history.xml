@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/dimen_16"
             android:text="@string/no_history_found"
+            android:textColor="@color/black"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:gravity="center"/>
 

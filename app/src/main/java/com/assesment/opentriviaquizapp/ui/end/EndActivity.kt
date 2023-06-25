@@ -70,6 +70,8 @@ class EndActivity : BaseActivity() {
                 "${addLeadingZero(quizHistory.score)}/${addLeadingZero(quizHistory.totalQuestion)}"
             totalCorrectValue.text = "${addLeadingZero(quizHistory.totalCorrect)}"
             totalWrongValue.text = "${addLeadingZero(quizHistory.totalWrong)}"
+            totalQuestionValue.text = "${addLeadingZero(quizHistory.totalQuestion)}"
+            quizTimeValue.text = "${quizHistory.getQuizTimeText()}"
 
         }
     }

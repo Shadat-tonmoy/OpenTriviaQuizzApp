@@ -150,6 +150,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/black"
             android:padding="@dimen/dimen_16"
             android:text="@string/fetching_question_message"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
