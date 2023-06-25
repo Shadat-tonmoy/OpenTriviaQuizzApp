@@ -95,6 +95,48 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalWrongLabel" />
 
+    <TextView
+        android:id="@+id/totalQuestionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_24"
+        android:text="@string/total_question"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalCorrectValue" />
+
+    <TextView
+        android:id="@+id/totalQuestionValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_24"
+        android:text="10"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalQuestionLabel" />
+
+    <TextView
+        android:id="@+id/quizTimeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_24"
+        android:text="@string/quiz_time"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalCorrectValue" />
+
+    <TextView
+        android:id="@+id/quizTimeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_24"
+        android:text="10/06/2023 | 08:54 PM"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quizTimeLabel" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/showHistoryButton"
         style="?attr/materialButtonOutlinedStyle"

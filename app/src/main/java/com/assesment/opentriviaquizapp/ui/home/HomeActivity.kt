@@ -3,6 +3,7 @@ package com.assesment.opentriviaquizapp.ui.home
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.core.content.ContextCompat
 import com.assesment.opentriviaquizapp.R
 import com.assesment.opentriviaquizapp.common.base.BaseActivity
 import com.assesment.opentriviaquizapp.databinding.ActivityHomeBinding
@@ -29,9 +30,17 @@ class HomeActivity : BaseActivity() {
 
     private fun initUI() {
         setContentView(viewBinding.root)
+        setupToolbar()
         with(viewBinding) {
             openQuizCard.setOnClickListener { activityNavigator.openQuizListScreen() }
             showHistoryCard.setOnClickListener { activityNavigator.openHistoryScreen() }
+        }
+    }
+
+    private fun setupToolbar() {
+        with(viewBinding) {
+            toolbar.title = getString(R.string.app_name)
+            setSupportActionBar(toolbar)
         }
     }
 }
