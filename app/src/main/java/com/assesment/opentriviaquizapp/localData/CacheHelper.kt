@@ -34,7 +34,7 @@ class CacheHelper(private val context: Context) {
         return if (!json.isNullOrEmpty()) {
             val urls: List<QuizHistory> = gson.fromJson(json, listType)
             urls
-        } else emptyList()
+        } else mutableListOf()
     }
 
     fun addQuizHistory(quizHistory: QuizHistory) {

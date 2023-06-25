@@ -31,6 +31,7 @@ class HomeActivity : BaseActivity() {
         setContentView(viewBinding.root)
         with(viewBinding) {
             openQuizCard.setOnClickListener { activityNavigator.openQuizListScreen() }
+            showHistoryCard.setOnClickListener { activityNavigator.openHistoryScreen() }
         }
     }
 }
