@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.assesment.opentriviaquizapp.common.Operation
 import com.assesment.opentriviaquizapp.common.base.BaseViewModel
 import com.assesment.opentriviaquizapp.common.constants.Constants
+import com.assesment.opentriviaquizapp.common.constants.Constants.CORRECT
 import com.assesment.opentriviaquizapp.common.constants.Constants.SINGLE_QUESTION_TIME
 import com.assesment.opentriviaquizapp.model.Question
 import com.assesment.opentriviaquizapp.network.apiHanlder.QuestionApiHandler
@@ -29,6 +30,8 @@ class QuizViewModel @Inject constructor() : BaseViewModel() {
     private var timerTask: TimerTask? = null
     private val questionTimerLiveData = MutableLiveData<Long>()
     private var currentQuestionLeftTime = SINGLE_QUESTION_TIME
+    private var answerStack = mutableListOf<Int>()
+    var currentScore = 0
 
     fun fetchQuestionList(): LiveData<Operation<List<Question>>> {
         val liveData = MutableLiveData<Operation<List<Question>>>()
@@ -64,7 +67,7 @@ class QuizViewModel @Inject constructor() : BaseViewModel() {
         timerTask = object : TimerTask() {
             override fun run() {
                 currentQuestionLeftTime -= 1000
-                if(isCurrentQuestionTimeFinished()) currentQuestionLeftTime = SINGLE_QUESTION_TIME
+                if (isCurrentQuestionTimeFinished()) currentQuestionLeftTime = SINGLE_QUESTION_TIME
                 questionTimerLiveData.postValue(currentQuestionLeftTime)
             }
         }
@@ -78,8 +81,19 @@ class QuizViewModel @Inject constructor() : BaseViewModel() {
         return questionTimerLiveData
     }
 
-    fun getRemainingTimeProgress() : Float{
-        return (((currentQuestionLeftTime.toFloat()/SINGLE_QUESTION_TIME.toFloat()) * 100).toInt()).toFloat()
+    fun getRemainingTimeProgress(): Float {
+        return (((currentQuestionLeftTime.toFloat() / SINGLE_QUESTION_TIME.toFloat()) * 100).toInt()).toFloat()
+    }
+
+    fun addAnswerFlagToStack(answerFlag: Int) {
+        answerStack.add(answerFlag)
+        if (answerFlag == CORRECT) currentScore++
+        else currentScore--
+        currentScore = maxOf(currentScore, 0)
+    }
+
+    fun getAnswerFlagList(): List<Int> {
+        return answerStack
     }
 
 }

@@ -42,6 +42,14 @@ class QuizListAdapter(private val context: Context) : RecyclerView.Adapter<QuizL
         notifyDataSetChanged()
     }
 
+    fun isQuestionAnsweredAt(index : Int) : Boolean {
+        return !questionList[index].userAnswer.isNullOrEmpty()
+    }
+
+    fun isCorrectAnsweredAt(index : Int) : Boolean {
+        return questionList[index].isCorrect()
+    }
+
     inner class ViewHolder(private val viewBinding : SingleQuestionLayoutBinding) : RecyclerView.ViewHolder(viewBinding.root){
 
         fun bindQuestion(question: Question) {
@@ -52,6 +60,12 @@ class QuizListAdapter(private val context: Context) : RecyclerView.Adapter<QuizL
                 option2.text = question.options[1]
                 option3.text = question.options[2]
                 option4.text = question.options[3]
+
+                option1.isChecked = false
+                option2.isChecked = false
+                option3.isChecked = false
+                option4.isChecked = false
+
                 option1.setOnClickListener { question.selectUserAnswer(0) }
                 option2.setOnClickListener { question.selectUserAnswer(1) }
                 option3.setOnClickListener { question.selectUserAnswer(2) }

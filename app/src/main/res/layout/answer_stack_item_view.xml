@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/answerIcon"
+    android:layout_width="@dimen/dimen_24"
+    android:layout_height="@dimen/dimen_24"
+    android:src="@drawable/check_green_24"
+    android:layout_margin="@dimen/dimen_8">
+
+</ImageView>
