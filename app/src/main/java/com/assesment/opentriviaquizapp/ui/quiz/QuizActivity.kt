@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.airbnb.lottie.LottieDrawable.RepeatMode
 import com.assesment.opentriviaquizapp.R
@@ -51,6 +52,7 @@ class QuizActivity : BaseActivity() {
 
     private fun initUI() {
         setContentView(viewBinding.root)
+        setupToolbar()
         with(viewBinding) {
             questionList.adapter = quizListAdapter
             questionList.isUserInputEnabled = false
@@ -92,10 +94,24 @@ class QuizActivity : BaseActivity() {
     private val questionListObserver = Observer<Operation<List<Question>>> {
         if (it is Operation.Success) {
             updateQuizList(it.data)
+        } else if(it is Operation.Failure) {
+
+
+        }
+    }
+
+    private fun setupToolbar() {
+        with(viewBinding){
+            toolbar.title = getString(R.string.quiz)
+            toolbar.navigationIcon =
+                ContextCompat.getDrawable(this@QuizActivity, R.drawable.ic_arrow_back_white_24)
+            setSupportActionBar(toolbar)
+            toolbar.setNavigationOnClickListener { onBackPressed() }
         }
     }
 
     private fun updateQuizList(questionList: List<Question>) {
+        viewBinding.loadingView.visibility = View.GONE
         quizListAdapter.updateQuestionList(questionList)
     }
 

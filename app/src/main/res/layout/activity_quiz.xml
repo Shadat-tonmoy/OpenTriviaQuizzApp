@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.quiz.QuizActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/purple_500"
+            app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:titleTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/questionCountLabel"
@@ -15,7 +32,7 @@
         android:text="@string/question_count_placeholder"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
     <TextView
         android:id="@+id/currentScoreLabel"
@@ -25,19 +42,19 @@
         android:text="@string/current_score_placeholder"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
     <com.mikhaellopez.circularprogressbar.CircularProgressBar
         android:id="@+id/timeCountProgressView"
         android:layout_width="@dimen/time_count_progress_dimen"
         android:layout_height="@dimen/time_count_progress_dimen"
-        app:cpb_progress="50"
-        app:cpb_progressbar_color="@color/purple_500"
         app:cpb_background_progressbar_color="@color/purple_200"
         app:cpb_background_progressbar_width="@dimen/dimen_6"
-        app:layout_constraintTop_toBottomOf="@id/questionCountLabel"
+        app:cpb_progress="50"
+        app:cpb_progressbar_color="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/questionCountLabel" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/answerTypeView"
@@ -47,9 +64,9 @@
         android:scaleX="1.5"
         android:scaleY="1.5"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/questionCountLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/questionCountLabel"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/correct_answer" />
 
@@ -57,24 +74,24 @@
         android:id="@+id/timeCountView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="00:00:30"
         android:gravity="center"
         android:padding="@dimen/dimen_16"
-        app:layout_constraintTop_toBottomOf="@id/timeCountProgressView"
+        android:text="00:00:30"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+        app:layout_constraintTop_toBottomOf="@id/timeCountProgressView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/answerStackView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/answer_stack_item_view"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/timeCountView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/timeCountView"
+        tools:listitem="@layout/answer_stack_item_view" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/questionListContainer"
@@ -94,8 +111,7 @@
             app:layout_constraintBottom_toTopOf="@+id/submitButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/timeCountView"
-            />
+            app:layout_constraintTop_toBottomOf="@id/timeCountView" />
 
     </androidx.core.widget.NestedScrollView>
 
@@ -111,9 +127,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/loadingView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/design_default_color_background"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/purple_500" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/dimen_16"
+            android:text="@string/fetching_question_message"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

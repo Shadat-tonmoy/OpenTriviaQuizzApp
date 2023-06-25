@@ -11,4 +11,8 @@
     <string name="total_correct">Total Correct</string>
     <string name="total_incorrect">Total Incorrect</string>
     <string name="play_again">Play Again</string>
+    <string name="fetching_question_message">Please wait while fetching the question list.This may take a while...</string>
+    <string name="quiz">Quiz</string>
+    <string name="quiz_history">Quiz History</string>
+    <string name="quiz_finished">Quiz Finished!</string>
 </resources>
