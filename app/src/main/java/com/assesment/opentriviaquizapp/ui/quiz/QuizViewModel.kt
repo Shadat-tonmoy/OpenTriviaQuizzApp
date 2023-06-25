@@ -121,4 +121,9 @@ class QuizViewModel @Inject constructor() : BaseViewModel() {
         return quizId
     }
 
+    fun stopTimer(){
+        timerTask?.cancel()
+        timer?.cancel()
+    }
+
 }

@@ -4,6 +4,7 @@ import android.graphics.Path.Op
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -66,15 +67,32 @@ class HistoryActivity : BaseActivity() {
 
     private val historyListObserver = Observer<Operation<List<QuizHistory>>> {
         if (it is Operation.Success) {
-            historyListAdapter.updateHistoryList(it.data)
+            updateUIWithHistory(it.data)
         }
     }
 
     private val historyItemListener = object : HistoryListAdapter.Listener {
         override fun onHistoryClicked(quizHistory: QuizHistory) {
             activityNavigator.openEndScreen(quizHistory.id)
-
         }
+    }
+
+    private fun updateUIWithHistory(list : List<QuizHistory>){
+        if(list.isEmpty()) {
+            showNothingFound()
+        } else {
+            hideNothingFound()
+            historyListAdapter.updateHistoryList(list)
+        }
+
+    }
+
+    private fun showNothingFound(){
+        viewBinding.nothingFoundView.visibility = View.VISIBLE
+    }
+
+    private fun hideNothingFound(){
+        viewBinding.nothingFoundView.visibility = View.GONE
 
     }
 

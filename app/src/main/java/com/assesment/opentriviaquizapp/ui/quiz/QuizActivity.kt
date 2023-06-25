@@ -3,6 +3,7 @@ package com.assesment.opentriviaquizapp.ui.quiz
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -126,10 +127,12 @@ class QuizActivity : BaseActivity() {
     private val questionRemainingTimeObserver = Observer<Long> {
         updateQuestionRemainingTimeUI(it)
         if (viewModel.isCurrentQuestionTimeFinished()) {
+            viewModel.stopTimer()
             val currentIndex = viewBinding.questionList.currentItem
             if (quizListAdapter.isQuestionAnsweredAt(currentIndex)) {
                 handleQuestionSubmission()
             } else {
+                Log.e(TAG, "questionRemainingTimeObserver : move to next question ")
                 viewBinding.submitButton.isEnabled = false
                 viewModel.addAnswerFlagToStack(Constants.WRONG)
                 showIncorrectAnswerView()

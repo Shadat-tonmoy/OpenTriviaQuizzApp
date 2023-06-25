@@ -19,5 +19,6 @@
     <string name="quiz_time">Quiz Time</string>
     <string name="start_quiz_desc">Start  a new quiz with random question from OpenTrivia question source. Total <b>10 Questions</b> to test your knowledge</string>
     <string name="show_history_desc"><![CDATA[See the history of your previously taken quizzes & measure how you have improved yourself with times.]]></string>
+    <string name="no_history_found">No History Found!</string>
 
 </resources>
