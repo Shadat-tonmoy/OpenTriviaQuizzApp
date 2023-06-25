@@ -8,12 +8,14 @@ import com.assesment.opentriviaquizapp.common.base.BaseViewModel
 import com.assesment.opentriviaquizapp.common.constants.Constants
 import com.assesment.opentriviaquizapp.common.constants.Constants.CORRECT
 import com.assesment.opentriviaquizapp.common.constants.Constants.SINGLE_QUESTION_TIME
+import com.assesment.opentriviaquizapp.common.constants.Constants.WRONG
+import com.assesment.opentriviaquizapp.localData.CacheHelper
 import com.assesment.opentriviaquizapp.model.Question
+import com.assesment.opentriviaquizapp.model.QuizHistory
 import com.assesment.opentriviaquizapp.network.apiHanlder.QuestionApiHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,12 +28,16 @@ class QuizViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var questionApiHandler: QuestionApiHandler
 
+    @Inject
+    lateinit var cacheHelper: CacheHelper
+
     private var timer: Timer? = null
     private var timerTask: TimerTask? = null
     private val questionTimerLiveData = MutableLiveData<Long>()
     private var currentQuestionLeftTime = SINGLE_QUESTION_TIME
     private var answerStack = mutableListOf<Int>()
     var currentScore = 0
+    var totalQuestion = 0
 
     fun fetchQuestionList(): LiveData<Operation<List<Question>>> {
         val liveData = MutableLiveData<Operation<List<Question>>>()
@@ -39,6 +45,7 @@ class QuizViewModel @Inject constructor() : BaseViewModel() {
         ioCoroutine.launch {
             runCatching {
                 val questionList = questionApiHandler.fetchAllQuestions()
+                totalQuestion = questionList.size
                 Log.e(TAG, "fetchQuestionList: questionList : $questionList")
                 liveData.postValue(Operation.Success(questionList))
             }.onFailure {
@@ -67,7 +74,7 @@ class QuizViewModel @Inject constructor() : BaseViewModel() {
         timerTask = object : TimerTask() {
             override fun run() {
                 currentQuestionLeftTime -= 1000
-                if (isCurrentQuestionTimeFinished()) currentQuestionLeftTime = SINGLE_QUESTION_TIME
+//                if (isCurrentQuestionTimeFinished()) currentQuestionLeftTime = SINGLE_QUESTION_TIME
                 questionTimerLiveData.postValue(currentQuestionLeftTime)
             }
         }
@@ -94,6 +101,24 @@ class QuizViewModel @Inject constructor() : BaseViewModel() {
 
     fun getAnswerFlagList(): List<Int> {
         return answerStack
+    }
+
+    fun cacheQuizHistoryAndGetId(): String {
+        val totalCorrect = answerStack.count { it == CORRECT }
+        val totalWrong = answerStack.count { it == WRONG }
+        val quizId = UUID.randomUUID().toString()
+
+        val quizHistory = QuizHistory(
+            quizId,
+            Calendar.getInstance().timeInMillis,
+            totalCorrect,
+            totalWrong,
+            totalQuestion,
+            currentScore
+        )
+
+        cacheHelper.addQuizHistory(quizHistory)
+        return quizId
     }
 
 }

@@ -6,4 +6,5 @@
     <dimen name="dimen_8">8dp</dimen>
     <dimen name="dimen_10">10dp</dimen>
     <dimen name="dimen_24">24dp</dimen>
+    <dimen name="dimen_56">56dp</dimen>
 </resources>

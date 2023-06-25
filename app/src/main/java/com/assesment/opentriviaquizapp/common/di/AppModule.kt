@@ -1,11 +1,14 @@
 package com.assesment.opentriviaquizapp.common.di
 
+import android.content.Context
+import com.assesment.opentriviaquizapp.localData.CacheHelper
 import com.assesment.opentriviaquizapp.network.api.QuestionAPI
 import com.assesment.opentriviaquizapp.network.apiHanlder.QuestionApiHandler
 import com.assesment.opentriviaquizapp.network.apiHanlder.QuestionApiHandlerImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -57,4 +60,11 @@ object AppModule {
     private fun getAPIBaseURL(): String {
         return "https://the-trivia-api.com"
     }
+
+    @Provides
+    @Singleton
+    fun provideCacheHelper(@ApplicationContext context: Context): CacheHelper {
+        return CacheHelper(context)
+    }
+
 }

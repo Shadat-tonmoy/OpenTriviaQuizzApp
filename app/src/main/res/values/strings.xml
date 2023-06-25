@@ -7,4 +7,8 @@
     <string name="show_history">Show History</string>
     <string name="invalid_answer_msg">Please Choose an answer to continue</string>
     <string name="current_score_placeholder">Current Score : <b>%s</b></string>
+    <string name="quiz_over_title">Quiz is Over! Your Final Score is</string>
+    <string name="total_correct">Total Correct</string>
+    <string name="total_incorrect">Total Incorrect</string>
+    <string name="play_again">Play Again</string>
 </resources>

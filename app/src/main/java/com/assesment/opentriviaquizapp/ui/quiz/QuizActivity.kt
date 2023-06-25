@@ -15,9 +15,11 @@ import com.assesment.opentriviaquizapp.common.constants.Constants
 import com.assesment.opentriviaquizapp.common.constants.Constants.NEXT_SCREEN_DELAY
 import com.assesment.opentriviaquizapp.databinding.ActivityQuizBinding
 import com.assesment.opentriviaquizapp.model.Question
+import com.assesment.opentriviaquizapp.ui.helpers.ActivityNavigator
 import com.assesment.opentriviaquizapp.ui.helpers.getTimeDurationString
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuizActivity : BaseActivity() {
@@ -28,6 +30,9 @@ class QuizActivity : BaseActivity() {
     }
 
     private val viewModel: QuizViewModel by viewModels()
+
+    @Inject
+    lateinit var activityNavigator: ActivityNavigator
 
     private val viewBinding by lazy { ActivityQuizBinding.inflate(LayoutInflater.from(this)) }
     private val quizListAdapter by lazy { QuizListAdapter(this) }
@@ -104,6 +109,19 @@ class QuizActivity : BaseActivity() {
 
     private val questionRemainingTimeObserver = Observer<Long> {
         updateQuestionRemainingTimeUI(it)
+        if (viewModel.isCurrentQuestionTimeFinished()) {
+            val currentIndex = viewBinding.questionList.currentItem
+            if (quizListAdapter.isQuestionAnsweredAt(currentIndex)) {
+                handleQuestionSubmission()
+            } else {
+                viewBinding.submitButton.isEnabled = false
+                viewModel.addAnswerFlagToStack(Constants.WRONG)
+                showIncorrectAnswerView()
+                initLoadNextQuestionTask()
+            }
+
+
+        }
     }
 
     private fun updateQuestionRemainingTimeUI(time: Long) {
@@ -122,8 +140,7 @@ class QuizActivity : BaseActivity() {
                 viewModel.addAnswerFlagToStack(Constants.WRONG)
                 showIncorrectAnswerView()
             }
-            handler.removeCallbacks(loadNextQuestionTask)
-            handler.postDelayed(loadNextQuestionTask, NEXT_SCREEN_DELAY)
+            initLoadNextQuestionTask()
         } else {
             Snackbar.make(
                 viewBinding.root,
@@ -135,6 +152,11 @@ class QuizActivity : BaseActivity() {
 
     }
 
+    private fun initLoadNextQuestionTask() {
+        handler.removeCallbacks(loadNextQuestionTask)
+        handler.postDelayed(loadNextQuestionTask, NEXT_SCREEN_DELAY)
+    }
+
     private val loadNextQuestionTask = Runnable {
         loadNextQuestion()
     }
@@ -144,7 +166,7 @@ class QuizActivity : BaseActivity() {
         answerStackListAdapter.updateQuestionList(viewModel.getAnswerFlagList())
         val currentIndex = viewBinding.questionList.currentItem
         if (currentIndex == quizListAdapter.itemCount - 1) {
-            // show end screen
+            openEndScreen()
         } else {
             viewBinding.questionList.setCurrentItem(currentIndex + 1, true)
             viewBinding.submitButton.isEnabled = true
@@ -168,6 +190,10 @@ class QuizActivity : BaseActivity() {
             answerTypeView.playAnimation()
             answerTypeView.repeatCount = 5
         }
+    }
 
+    private fun openEndScreen() {
+        val quizId = viewModel.cacheQuizHistoryAndGetId()
+        activityNavigator.openEndScreen(quizId)
     }
 }
